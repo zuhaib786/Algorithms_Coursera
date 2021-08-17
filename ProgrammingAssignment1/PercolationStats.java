@@ -3,16 +3,16 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class PercolationStats {
     private final double[] means;
-    private boolean mean_calc;
-    private double mean_fnd;
-    private double std_dev_fnd;
-    private boolean std_dev_calc;
+    private boolean meanCalc;
+    private double meanFnd;
+    private double stdDevFnd;
+    private boolean stdDevCalc;
 
     public PercolationStats(int n, int trials) {
         validate(n, trials);
         means = new double[trials];
-        mean_calc = false;
-        std_dev_calc = false;
+        meanCalc = false;
+        stdDevCalc = false;
         while (trials > 0) {
             trials--;
             Percolation perc = new Percolation(n);
@@ -34,37 +34,37 @@ public class PercolationStats {
 
     public double mean() {
         double ans = 0.0;
-        if (mean_calc)
-            return mean_fnd;
+        if (meanCalc)
+            return meanFnd;
         for (double mean : means) {
             ans += mean;
         }
-        mean_calc = true;
-        mean_fnd = ans / (means.length);
-        return mean_fnd;
+        meanCalc = true;
+        meanFnd = ans / (means.length);
+        return meanFnd;
     }
 
     public double stddev() {
         this.mean();
-        double std_dev = 0;
-        if (std_dev_calc)
-            return std_dev_fnd;
-        std_dev_calc = true;
+        double stdDev = 0;
+        if (stdDevCalc)
+            return stdDevFnd;
+        stdDevCalc = true;
         for (double mean : this.means) {
-            std_dev += (mean - this.mean_fnd) * (mean - this.mean_fnd);
+            stdDev += (mean - this.meanFnd) * (mean - this.meanFnd);
         }
-        std_dev_fnd = Math.sqrt(std_dev / (means.length - 1));
-        return std_dev_fnd;
+        stdDevFnd = Math.sqrt(stdDev / (means.length - 1));
+        return stdDevFnd;
     }
 
     public double confidenceLo() {
         this.stddev();
-        return this.mean_fnd - (1.96 * this.std_dev_fnd / Math.sqrt(means.length));
+        return this.meanFnd - (1.96 * this.stdDevFnd / Math.sqrt(means.length));
     }
 
     public double confidenceHi() {
         this.stddev();
-        return this.mean_fnd + (1.96 * this.std_dev_fnd / Math.sqrt(means.length));
+        return this.meanFnd + (1.96 * this.stdDevFnd / Math.sqrt(means.length));
     }
 
     private void validate(int n, int trials) {

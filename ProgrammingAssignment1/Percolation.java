@@ -88,6 +88,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-
+        // Main Program to check the correctness.
     }
 }
